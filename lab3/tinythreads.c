@@ -38,31 +38,35 @@ static void initialize(void) {
 	threads[NTHREADS-1].next = NULL;
 	
 	
-
+	PORTB |= (1<<7);
 	// Enable interrupts
- 	EIMSK |= (1<<PCIE1); // 7th bit enabled for PCIE1 (1<<7)
+	EIMSK |= (1<<PCIE1); // 7th bit enabled for PCIE1 (1<<7)
+	
 
-// 	8Mh clock
-
-// 	Set OC1A to 1
- 	TCCR1A |= (1<<COM1A0) | (1<<COM1A1);
-// 	Set the mode to CTC and prescaler to 1024
- 	TCCR1B |= (1<<WGM12) | (1<<CS10) | (1<<CS12);
-// 	Activate "timer output"
-  	TIMSK1 |= (1<<OCIE1A);
-	   	
-// 	// set timer to 0
- 	//TCNT1 = 0;
+	// 	Set OC1A to 1
+	TCCR1A |= (1<<COM1A0) | (1<<COM1A1);
+	// 	Set the mode to CTC and prescaler to 1024
+	TCCR1B |= (1<<WGM12) | (1<<CS10) | (1<<CS12);
+	// 	Activate "timer output"
+	TIMSK1 |= (1<<OCIE1A);
+	
+	// Timer compare value
+	OCR1A = 391; // (8000000 / 1024) * 0.005
+	
+	// Set timer to 0
+	TCNT1 = 0;
 	initialized = 1;
 }
 
 void addBlinkCounter(){
+	// add 50ms to counter
 	DISABLE();
 	blinkCounter++;
 	ENABLE();
 }
 
-ISR(TIMER1_COMPA_vect) { // Step 2
+
+ISR(TIMER1_COMPA_vect) {
 	addBlinkCounter();
 	yield();
 	

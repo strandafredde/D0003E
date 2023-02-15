@@ -5,9 +5,8 @@
 #include <avr/io.h>
 #include "tinythreads.h"
 
-int pp;
 int count;
-bool pressP4 = true;
+
 
 uint16_t countP4 = 15625;
 uint16_t cycle = 15625;
@@ -45,31 +44,6 @@ void LCD_init() {
     /* low power waveform, no frame interrupt, no blanking */
     LCDCRA = (1<<LCDAB) | (1<<LCDEN);
 
-}
-
-void LCD_clear(){
-
-    /* Function: LCD_clear
-     * -------------------
-     * clear code for LCD
-     *
-     * returns: none
-     */
-
-    LCDDR0 = (LCDDR0 & 0x0000);
-    LCDDR5 = (LCDDR5 & 0x0000);
-    LCDDR10 = (LCDDR10 & 0x0000);
-    LCDDR15 = (LCDDR11 & 0x0000);
-
-    LCDDR1 = (LCDDR1 & 0x0066);
-    LCDDR6 = (LCDDR6 & 0x0000);
-    LCDDR11 = (LCDDR11 & 0x0000);
-    LCDDR16 = (LCDDR16 & 0x0000);
-
-    LCDDR2 = (LCDDR2 & 0x0040);
-    LCDDR7 = (LCDDR7 & 0x0000);
-    LCDDR12 = (LCDDR12 & 0x0000);
-    LCDDR17 = (LCDDR17 & 0x0000);
 }
 
 void writeChar(char ch, int pos){
@@ -128,40 +102,40 @@ void writeChar(char ch, int pos){
     /* writes translated char at pos to LCD */
     switch(pos){
         case 0:
-            LCDDR0  = (LCDDR0&0x00F0)  |  numArr[i] & 0x000F;
-            LCDDR5  = (LCDDR5&0x00F0)  | (numArr[i] & 0x00F0)>>4;
-            LCDDR10 = (LCDDR10&0x00F0) | (numArr[i] & 0x0F00)>>8;
-            LCDDR15 = (LCDDR15&0x00F0) | (numArr[i] & 0xF000)>>12;
+            LCDDR0  = (LCDDR0&0x00F0)  |  (numArr[i] & 0x000F);
+            LCDDR5  = (LCDDR5&0x00F0)  | ((numArr[i] & 0x00F0))>>4;
+            LCDDR10 = (LCDDR10&0x00F0) | ((numArr[i] & 0x0F00))>>8;
+            LCDDR15 = (LCDDR15&0x00F0) | ((numArr[i] & 0xF000))>>12;
             break;
         case 1:
-            LCDDR0  = (LCDDR0&0x000F)  |  (numArr[i] & 0x000F)<<4;
-            LCDDR5  = (LCDDR5&0x000F)  |   numArr[i] & 0x00F0;
-            LCDDR10 = (LCDDR10&0x000F) |  (numArr[i] & 0x0F00)>>4;
-            LCDDR15 = (LCDDR15&0x000F) |  (numArr[i] & 0xF000)>>8;
+            LCDDR0  = (LCDDR0&0x000F)  |  ((numArr[i] & 0x000F))<<4;
+            LCDDR5  = (LCDDR5&0x000F)  |   (numArr[i] & 0x00F0);
+            LCDDR10 = (LCDDR10&0x000F) |  ((numArr[i] & 0x0F00))>>4;
+            LCDDR15 = (LCDDR15&0x000F) |  ((numArr[i] & 0xF000))>>8;
             break;
         case 2:
-            LCDDR1  = (LCDDR1&0x00F0)  |   numArr[i] & 0x000F;
-            LCDDR6  = (LCDDR6&0x00F0)  |  (numArr[i] & 0x00F0)>>4;
-            LCDDR11 = (LCDDR11&0x00F0) |  (numArr[i] & 0x0F00)>>8;
-            LCDDR16 = (LCDDR16&0x00F0) |  (numArr[i] & 0xF000)>>12;
+            LCDDR1  = (LCDDR1&0x00F0)  |  (numArr[i] & 0x000F);
+            LCDDR6  = (LCDDR6&0x00F0)  |  ((numArr[i] & 0x00F0))>>4;
+            LCDDR11 = (LCDDR11&0x00F0) |  ((numArr[i] & 0x0F00))>>8;
+            LCDDR16 = (LCDDR16&0x00F0) |  ((numArr[i] & 0xF000))>>12;
             break;
         case 3:
-            LCDDR1  = (LCDDR1&0x000F)  |  (numArr[i] & 0x000F)<<4;
-            LCDDR6  = (LCDDR6&0x000F)  |   numArr[i] & 0x00F0;
-            LCDDR11 = (LCDDR11&0x000F) |  (numArr[i] & 0x0F00)>>4;
-            LCDDR16 = (LCDDR16&0x000F) |  (numArr[i] & 0xF000)>>8;
+            LCDDR1  = (LCDDR1&0x000F)  |  ((numArr[i] & 0x000F))<<4;
+            LCDDR6  = (LCDDR6&0x000F)  |   (numArr[i] & 0x00F0);
+            LCDDR11 = (LCDDR11&0x000F) |  ((numArr[i] & 0x0F00))>>4;
+            LCDDR16 = (LCDDR16&0x000F) |  ((numArr[i] & 0xF000))>>8;
             break;
         case 4:
-            LCDDR2  = (LCDDR2&0x00F0)  | ( numArr[i] & 0x000F);
-            LCDDR7  = (LCDDR7&0x00F0)  | (numArr[i] & 0x00F0)>>4;
-            LCDDR12 = (LCDDR12&0x00F0) | (numArr[i] & 0x0F00)>>8;
-            LCDDR17 = (LCDDR17&0x00F0) | (numArr[i] & 0xF000)>>12;
+            LCDDR2  = (LCDDR2&0x00F0)  | ((numArr[i] & 0x000F));
+            LCDDR7  = (LCDDR7&0x00F0)  | ((numArr[i] & 0x00F0))>>4;
+            LCDDR12 = (LCDDR12&0x00F0) | ((numArr[i] & 0x0F00))>>8;
+            LCDDR17 = (LCDDR17&0x00F0) | ((numArr[i] & 0xF000))>>12;
             break;
         case 5:
-            LCDDR2  = (LCDDR2&0x000F)  |  (numArr[i] & 0x000F)<<4;
-            LCDDR7  = (LCDDR7&0x000F)  |  numArr[i] & 0x00F0;
-            LCDDR12 = (LCDDR12&0x000F) |  (numArr[i] & 0x0F00)>>4;
-            LCDDR17 = (LCDDR17&0x000F) |  (numArr[i] & 0xF000)>>8;
+            LCDDR2  = (LCDDR2&0x000F)  |  ((numArr[i] & 0x000F))<<4;
+            LCDDR7  = (LCDDR7&0x000F)  |  (numArr[i] & 0x00F0);
+            LCDDR12 = (LCDDR12&0x000F) |  ((numArr[i] & 0x0F00))>>4;
+            LCDDR17 = (LCDDR17&0x000F) |  ((numArr[i] & 0xF000))>>8;
             break;
         default:
             break;
@@ -199,7 +173,7 @@ void printAt(long num, int pos) {
      * returns: none
      */
 
-    pp = pos;
+    int pp = pos;
     writeChar( (num % 100) / 10 + '0', pp);
     pp++;
     writeChar( num % 10 + '0', pp);
@@ -233,8 +207,9 @@ void button() {
      *
      * returns: none
      */
-
+	bool pressP4 = true;
     PORTB = 0x0080;
+	
     while(true) {
         if(!(PINB & (0X0080))) {
 
@@ -260,11 +235,9 @@ void blink() {
      * returns: none
      */
 	while (true) {
-		if(getBlinkCounter() == 0){
-			LCDDR2 = 0x0040;
-		}
-		if(getBlinkCounter() == 1) {
-			LCDDR2 = 0x0000;
+		// blink every 0.5 second (one blink counter is 50ms)
+		if(getBlinkCounter() >= 10){
+			LCDDR18 = !LCDDR18;
 			resetBlinkCounter();
 		}
 	}
@@ -274,10 +247,11 @@ void blink() {
 int main() {
 	CLKPR = (0x80);
 	CLKPR = (0x00);
+	
 	LCD_init();
-	//blink();
-    //spawn(blink, 0);
-	spawn(computePrimes, 0);
-    //button();
+	
+	//spawn(button, 0);
+	spawn(blink, 0);
+	computePrimes(0);
 	
 }
