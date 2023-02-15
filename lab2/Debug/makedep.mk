@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-mytest.c
+main.c
 
 tinythreads.c
 
