@@ -226,7 +226,6 @@ void button() {
 }
 
 void blink() {
-	
     /* Function: blink
      * -------------------
      * activates segment of LCD at

@@ -71,6 +71,7 @@ ISR(TIMER1_COMPA_vect) {
 	yield();
 	
 }
+
 int getBlinkCounter() {
 	DISABLE();
 	int temp = blinkCounter;
@@ -83,6 +84,7 @@ int resetBlinkCounter() {
 	blinkCounter = 0;
 	ENABLE();
 }
+
 static void enqueue(thread p, thread *queue) {
 	p->next = NULL;
 	if (*queue == NULL) {
