@@ -250,7 +250,7 @@ int main() {
 	
 	LCD_init();
 	
-	//spawn(button, 0);
+	spawn(button, 0);
 	spawn(blink, 0);
 	computePrimes(0);
 	
