@@ -38,10 +38,10 @@ static void initialize(void) {
 	threads[NTHREADS-1].next = NULL;
 	
 	
-	PORTB |= (1<<7);
+
 	// Enable interrupts
 	EIMSK |= (1<<PCIE1); // 7th bit enabled for PCIE1 (1<<7)
-	
+	PCMSK1 |= (1<<PCINT15); // 7th bit enabled for PCINT (1<<7)
 
 	// 	Set OC1A to 1
 	TCCR1A |= (1<<COM1A0) | (1<<COM1A1);
@@ -70,6 +70,13 @@ ISR(TIMER1_COMPA_vect) {
 	addBlinkCounter();
 	yield();
 	
+}
+
+ISR(PCINT1_vect) {
+	// Check the status of PORTB bit 7 before calling yield()
+	if (PORTB & (1<<7)) {
+		yield();
+	}
 }
 
 int getBlinkCounter() {

@@ -1,17 +1,9 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdint.h>
-#include <avr/io.h>
 #include "tinythreads.h"
-
-int count;
-
-
-uint16_t countP4 = 15625;
-uint16_t cycle = 15625;
-int lastTime;
-uint16_t deltaTime;
+#include <stdbool.h>
+#include <stdlib.h>
+#include <math.h>
+#include <avr/io.h>
+#include <stdio.h>
 
 #define SCC_0  0x1551
 #define SCC_1  0x2080
@@ -23,8 +15,11 @@ uint16_t deltaTime;
 #define SCC_7  0x0111
 #define SCC_8  0x1F51
 #define SCC_9  0x0B51
+
 //Array to store numbers
-#define numArr (int[]) {SCC_0, SCC_1 , SCC_2, SCC_3, SCC_4, SCC_5, SCC_6, SCC_7, SCC_8, SCC_9}
+int numArr[10] = {SCC_0, SCC_1 , SCC_2, SCC_3, SCC_4, SCC_5, SCC_6, SCC_7, SCC_8, SCC_9};
+
+int count;
 
 void LCD_init() {
 
@@ -226,6 +221,7 @@ void button() {
 }
 
 void blink() {
+
     /* Function: blink
      * -------------------
      * activates segment of LCD at
@@ -234,7 +230,7 @@ void blink() {
      * returns: none
      */
 	while (true) {
-		// blink every 0.5 second (one blink counter is 50ms)
+		// blink every 0.5 second (one blink counter is 50ms, 10 = 0.5s)
 		if(getBlinkCounter() >= 10){
 			LCDDR18 = !LCDDR18;
 			resetBlinkCounter();
@@ -244,6 +240,10 @@ void blink() {
 }
 
 int main() {
+	//Initialize button
+	PORTB |= (1<<7);
+	
+	//Initialize clock 
 	CLKPR = (0x80);
 	CLKPR = (0x00);
 	
