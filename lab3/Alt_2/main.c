@@ -203,8 +203,10 @@ void button() {
      *
      * returns: none
      */
-	lock(&m_button);
 	bool pressP4 = true;
+	while (true) {
+	lock(&m_button);
+	
     PORTB = 0x0080;
         if(!(PINB & (0X0080))) {
 
@@ -217,6 +219,7 @@ void button() {
             pressP4 = true;
         }
         printAt(count, 4);
+	}
 }
 
 void blink() {
@@ -228,6 +231,7 @@ void blink() {
      *
      * returns: none
      */
+	while (true) {
 	lock(&m_blink);
 		addBlinkCounter();
 		// blink every 0.5 second (one blink counter is 50ms, 10 = 0.5s)
@@ -235,7 +239,8 @@ void blink() {
 			LCDDR18 = !LCDDR18;
 			resetBlinkCounter();
 		}
-
+	
+	}
 }
 
 int main() {
