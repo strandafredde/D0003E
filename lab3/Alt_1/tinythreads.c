@@ -51,7 +51,7 @@ static void initialize(void) {
 	TIMSK1 |= (1<<OCIE1A);
 	
 	// Timer compare value
-	OCR1A = 391; // (8000000 / 1024) * 0.005
+	OCR1A = 3910; // (8000000 / 1024) * 0.005
 	
 	// Set timer to 0
 	TCNT1 = 0;

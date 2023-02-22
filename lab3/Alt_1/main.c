@@ -1,3 +1,6 @@
+
+//Lab 3 Alternative 1 
+
 #include "tinythreads.h"
 #include <stdbool.h>
 #include <stdlib.h>
