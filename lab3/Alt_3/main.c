@@ -204,22 +204,19 @@ void button() {
      * returns: none
      */
 	bool pressP4 = true;
-	while (true) {
-	lock(&m_button);
-	
     PORTB = 0x0080;
-        if(!(PINB & (0X0080))) {
+	
+    if(!(PINB & (0X0080))) {
 
-            if(pressP4){
-                count ++;
-                pressP4 = false;
-            }
+        if(pressP4){
+            count ++;
+            pressP4 = false;
         }
-        if(PINB & (0X0080)) {
-            pressP4 = true;
-        }
-        printAt(count, 4);
-	}
+    }
+    if(PINB & (0X0080)) {
+        pressP4 = true;
+    }
+    printAt(count, 4);
 }
 
 void blink() {
@@ -231,16 +228,12 @@ void blink() {
      *
      * returns: none
      */
-	while (true) {
-	lock(&m_blink);
-		addBlinkCounter();
-		// blink every 0.5 second (one blink counter is 50ms, 10 = 0.5s)
-		if(getBlinkCounter() >= 10){
-			LCDDR18 = !LCDDR18;
-			resetBlinkCounter();
-		}
-	
+	// blink every 0.5 second (one blink counter is 50ms, 10 = 0.5s)
+	if(getBlinkCounter() >= 10){
+		LCDDR18 = !LCDDR18;
+		resetBlinkCounter();
 	}
+
 }
 
 int main() {
@@ -252,9 +245,6 @@ int main() {
 	CLKPR = (0x00);
 	
 	LCD_init();
-	lock(&m_blink);
-	lock(&m_button);
-	
 	
 	spawn(button, 0);
 	//yield();

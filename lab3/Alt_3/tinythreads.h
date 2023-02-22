@@ -13,6 +13,9 @@ typedef struct thread_block *thread;
 void spawn(void (*code)(int), int arg);
 void yield(void);
 
+void button();
+void blink();
+
 struct mutex_block {
     int locked;
     thread waitQ;

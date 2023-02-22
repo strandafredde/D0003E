@@ -71,15 +71,14 @@ void addBlinkCounter(){
 
 
 ISR(TIMER1_COMPA_vect) {
-	/*addBlinkCounter();*/
-	unlock(&m_blink);
+	addBlinkCounter();
+	spawn(blink, 0);
 }
 
 ISR(PCINT1_vect) {
 	// Check the status of PORTB bit 7 before calling yield()
 	if (PORTB & (1<<7)) {
-		
-		unlock(&m_button);
+		spawn(button, 0);
 	}
 }
 
