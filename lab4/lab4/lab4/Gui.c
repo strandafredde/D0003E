@@ -89,7 +89,7 @@ void writeChar(char ch, int pos){
     /* writes translated char at pos to LCD */
     switch(pos){
         case 0:
-            LCDDR0  = (LCDDR0&0x00F0)  |  (numArr[i] & 0x000F);
+            LCDDR0  = (LCDDR0&0x00F0)  |  (numArr[i] & 0x000F) | 0x0004;
             LCDDR5  = (LCDDR5&0x00F0)  | ((numArr[i] & 0x00F0))>>4;
             LCDDR10 = (LCDDR10&0x00F0) | ((numArr[i] & 0x0F00))>>8;
             LCDDR15 = (LCDDR15&0x00F0) | ((numArr[i] & 0xF000))>>12;
@@ -165,6 +165,8 @@ void printAt(long num, int pos) {
     writeChar( num % 10 + '0', pp);
 }
 
+
+
 void button() {
 
     /* Function: button
@@ -174,21 +176,58 @@ void button() {
      *
      * returns: none
      */
+	int freqR = 0;
+	int freqL = 0;
 	while(true) {
-		bool pressP4 = true;
+		bool state;
+		// Choose either left(1) or right(2) side to display freq on
 		PORTE |= (1<<3);
 		if(!(PINE & (0X0008))) {
-			LCDDR0 = 0x40;
-			if(pressP4){
-				pressP4 = false;
-			}
+			LCDDR0 |= 0x40;
+			LCDDR0 &= 0XFB;
+			state = false;
 		}
 		PORTE |= (1<<2);
 		if(!(PINE & (0X0004))) {
-			LCDDR0 = 0x04;
-			if(pressP4){
-				pressP4 = false;
+			LCDDR0 |= 0x04;
+			LCDDR0 &= 0XBF;
+			state = true;
+		}
+		// Depending on state, decrease or increase freq
+		if(state == true) {
+			PORTB |= (1<<6);
+			if(!(PINB & (0X0040))) {
+				//LCDDR2 = 0x0040;
+				freqL += 1;
+				printAt(freqL, 0);
+			}
+			PORTB |= (1<<7);
+			if(!(PINB & (0X0080))) {
+				if(freqL > 0) {
+					freqL -= 1;
+				}
+				
+				printAt(freqL, 0);
+			}
+		}
+		
+		if(state == false) {
+			PORTB |= (1<<6);
+			if(!(PINB & (0X0040))) {
+				//LCDDR2 = 0x0040;
+				freqR += 1;
+				printAt(freqR, 4);
+			}
+			PORTB |= (1<<7);
+			if(!(PINB & (0X0080))) {
+				if (freqR > 0) {
+					freqR -= 1;
+				}
+				
+				printAt(freqR, 4);
 			}
 		}
 	}
 }
+
+
