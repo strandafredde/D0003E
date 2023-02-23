@@ -176,15 +176,19 @@ void button() {
      */
 	while(true) {
 		bool pressP4 = true;
+		PORTE |= (1<<3);
+		if(!(PINE & (0X0008))) {
+			LCDDR0 = 0x40;
+			if(pressP4){
+				pressP4 = false;
+			}
+		}
 		PORTE |= (1<<2);
 		if(!(PINE & (0X0004))) {
 			LCDDR0 = 0x04;
 			if(pressP4){
 				pressP4 = false;
 			}
-		}
-		if(PINE & (0X0004)) {
-			pressP4 = true;
 		}
 	}
 }
