@@ -165,7 +165,22 @@
     <Compile Include="Gui.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Gui.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="InputHandler.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="InputHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pulseGenerator.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="pulseGenerator.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="TinyTimber.c">
