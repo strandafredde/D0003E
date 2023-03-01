@@ -4,8 +4,7 @@
  * Created: 2023-03-01 12:08:03
  *  Author: stran
  */ 
-
-#include "pulseGenerator.h"
+#include "TinyTimber.h"
 #include "Gui.h"
 
 typedef struct {

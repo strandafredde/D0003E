@@ -5,7 +5,7 @@
  *  Author: stran
  */ 
 
-
+#include "TinyTimber.h"
 #ifndef PULSEGENERATOR_H_
 #define PULSEGENERATOR_H_
 

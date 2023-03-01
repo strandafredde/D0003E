@@ -4,11 +4,10 @@
 #include <avr/io.h>
 #include <stdio.h>
 
-#include "Gui.h"
+#include "TinyTimber.h"
 
 //Array to store numbers
 
-int numArr[10] = {SCC_0, SCC_1 , SCC_2, SCC_3, SCC_4, SCC_5, SCC_6, SCC_7, SCC_8, SCC_9};
 
 
 typedef struct {
@@ -36,7 +35,18 @@ void LCD_init() {
 }
 
 void writeChar(char ch, int pos){
+	#define SCC_0  0x1551
+	#define SCC_1  0x2080
+	#define SCC_2  0x1E11
+	#define SCC_3  0x1B11
+	#define SCC_4  0x0B50
+	#define SCC_5  0x1B41
+	#define SCC_6  0x1F41
+	#define SCC_7  0x0111
+	#define SCC_8  0x1F51
+	#define SCC_9  0x0B51
 
+	int numArr[10] = {SCC_0, SCC_1 , SCC_2, SCC_3, SCC_4, SCC_5, SCC_6, SCC_7, SCC_8, SCC_9};
     /* Function: WriteChar
      * -------------------
      * writes character (char ch) to LCD, at

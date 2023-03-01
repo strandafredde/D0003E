@@ -14,9 +14,9 @@ int main(void) {
 	//Initialize button
 	LCD_init();
 	
-	guiClass gui = initguiClass();
-	pulseGenerator p1 = initPulseGenerator(0, 0, 0, gui);
-	pulseGenerator p2 = initPulseGenerator(0, 0, 0, gui);
+	guiClass *gui = initguiClass();
+	pulseGenerator *p1 = initPulseGenerator(0, 0, 0, gui);
+	pulseGenerator *p2 = initPulseGenerator(0, 0, 0, gui);
 	InputHandler hand = initInputHandler(gui, p1, p2);
 
 	

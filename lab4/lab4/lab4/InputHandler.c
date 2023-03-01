@@ -4,10 +4,11 @@
  * Created: 2023-03-01 11:45:47
  *  Author: stran
  */ 
-#include "InputHandler.h"
-#include "TinyTimber.c"
+//#include "InputHandler.h"
+#include "TinyTimber.h"
 #include "Gui.h"
-
+#include "pulseGenerator.h"
+#include <avr/io.h>
 
 
 typedef struct {
@@ -36,9 +37,9 @@ void joystickLeftRight(InputHandler *self){
 	}
 
 void joystickUpDownCenter(InputHandler *self){
-	pulseGenerator generator;
+	pulseGenerator *generator;
 	if (self->p1->side == 0) {
-		generator = self -> p1;
+		 generator = self -> p1;
 	}
 	
 	if (self->p2->side == 1) {
