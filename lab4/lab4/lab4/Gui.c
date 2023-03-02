@@ -178,6 +178,7 @@ void printAt(long num, int pos) {
 }
 
 void generatorChange(int *side) {
+	/*  Shows which side to display the frequency on */
 	if(*side == 1) {
 		LCDDR0 |= 0x04;
 		LCDDR0 &= 0xBF;

@@ -11,7 +11,6 @@
 #include "pulseGenerator.h"
 #include "TinyTimber.h"
 int main(void) {
-	//Initialize button
 	LCD_init();
 	
 	guiClass *gui = initguiClass();

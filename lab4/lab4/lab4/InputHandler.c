@@ -20,6 +20,12 @@ typedef struct {
 
 
 void joystickLeftRight(InputHandler *self){
+	/*	Choose which pulse generator to use and which
+		side to display frequency on. 
+		
+		Asynchronously invoke method generator change on object self 
+		with the chosen side as argument.   */
+	
 	    PORTE |= (1<<3);
 	    if(!(PINE & (0X0008))) {
 		    /* Pulse generator 2 */
@@ -38,6 +44,12 @@ void joystickLeftRight(InputHandler *self){
 
 void joystickUpDownCenter(InputHandler *self){
 	pulseGenerator *generator;
+	
+	/*	Choose which generator to be used dependig on which side is chosen.
+		Execute and change the frequency or save the frequency
+		with a delay of one second depending on which
+		button is pressed. */
+	
 	if (self->p1->side == 0) {
 		 generator = self -> p1;
 	}

@@ -4,10 +4,12 @@
  * Created: 2023-03-01 12:08:17
  *  Author: stran
  */ 
-
-#include "TinyTimber.h"
 #ifndef PULSEGENERATOR_H_
 #define PULSEGENERATOR_H_
+
+
+#include "TinyTimber.h"
+
 
 typedef struct {
 	Object super;

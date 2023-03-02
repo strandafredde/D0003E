@@ -5,12 +5,12 @@
  *  Author: stran
  */ 
 
+#ifndef INPUTHANDLER_H_
+#define INPUTHANDLER_H_
+
 #include "TinyTimber.h"
 #include "pulseGenerator.h"
 #include "Gui.h"
-
-#ifndef INPUTHANDLER_H_
-#define INPUTHANDLER_H_
 
 typedef struct {
 	Object super;
@@ -23,6 +23,7 @@ typedef struct {
 		{initObject(), gui, p1, p2}
 
 void joystickLeftRight(InputHandler *self);
+
 void joystickUpDownCenter(InputHandler *self);
 
 

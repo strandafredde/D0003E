@@ -20,6 +20,8 @@ void changeFreqUp(pulseGenerator *self){
 }
 
 void changeFreqDown(pulseGenerator *self){
+	/*	Depending on the side chosen ( which generator)
+		update the frequency shown on the display. */
 	if (self->freq > 0){
 		self->freq -= 1;
 		if(self->side == 0) {
