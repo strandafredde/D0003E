@@ -1,0 +1,18 @@
+﻿Explain the principles of implementing object orientation in C:
+Vi använder structs där vi har det klassen ska innehålla variabler och metoder. Sen har man en en reference * till structen man har skapat i sina metoder.´
+Sen för att nå element i sina structs så använder man -> 
+
+
+The TimyTimber kernel, if properly used, supports a reactive programming model with object-level concurrency. Explain these two terms:
+
+
+Reactive programming model: Använder asynchronous programming logik för att hantera realtidsuppdateringar 
+Object-level concurrency:
+
+
+When using the TinyTimber kernel, why is it important to invoke all object methods via kernel primitives (SYNC, ASYNC, AFTER, BEFORE) and not directly?
+Det tillåter flera metoder att köras samtidigt 
+
+
+Explain the term race condition:
+Race condition uppstår när den önskade outputen kräver att vissa händelser inträffar i en specifik ordning men att händelserna inte alltid sker i den ordningen. Det är ett "race" mellan händelserna och om fel händelser vinner failar programmet.
