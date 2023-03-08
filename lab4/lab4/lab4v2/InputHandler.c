@@ -7,6 +7,7 @@
  */ 
 
 #include <avr/io.h>
+#include <stdbool.h>
 
 
 #include "TinyTimber.h"
@@ -29,24 +30,44 @@ void joystickUpDownCenter (inputHandler *self) {
 		with a delay of 0.5s depending on which
 		button is pressed. */
 	
+	
 	//Push
 	PORTB |= (1<<4);
 	if((PINB & (1<<PINB4)) == 0) {
-		ASYNC(self->pGen[self->current], saveFreq, NULL);
+		if(self->press){
+			ASYNC(self->pGen[self->current], saveFreq, NULL);
+			self->press = false;
+		}
+		AFTER(MSEC(200), self, bounce, NULL);
 	}
 
     //Up
 	PORTB |= (1<<6);
 	if(!(PINB & 0x0040)) {
-		AFTER(MSEC(500),self->pGen[self->current],  changeFreqUp, NULL);
+		if (self->press){
+			AFTER(MSEC(500),self->pGen[self->current],  changeFreqUp, NULL);
+			self->press = false;
+		}
+		AFTER(MSEC(200), self, bounce, NULL);
+
     }
 	
     //Down
 	PORTB |= (1<<7);
 	if(!(PINB & 0x0080)) {
-		AFTER(MSEC(500), self->pGen[self->current],  changeFreqDown, NULL);
+		if(self->press) {
+			AFTER(MSEC(500), self->pGen[self->current],  changeFreqDown, NULL);
+			self->press = false;
+		}
+		AFTER(MSEC(200), self, bounce, NULL);
     }
+	
 }
+
+void bounce(inputHandler *self) {
+	self->press = true;
+}
+
 
 void joystickLeftRight(inputHandler *self) {
 	/*	Choose which pulse generator to use and which
