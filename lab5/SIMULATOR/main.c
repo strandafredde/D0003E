@@ -6,6 +6,9 @@
 #include "gui.h"
 int main(void){
     initSimHandler()
-
+    while(1) {
+        inputHandler();
+        bridgeHandler();
+    }
 
 }
