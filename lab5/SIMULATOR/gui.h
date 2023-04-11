@@ -2,9 +2,12 @@
 // Created by stran on 2023-04-09.
 //
 
-#ifndef LAB5_GUI_H
-#define LAB5_GUI_H
+#ifndef GUI_H_
+#define GUI_H_
 
-void printStatus();
+#include "simHandler.h"
+#include "simHandler.h"
 
-#endif //LAB5_GUI_H
+void printStatus(void);
+
+#endif //GUI_H_

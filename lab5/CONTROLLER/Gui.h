@@ -10,7 +10,6 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-
 #include "TinyTimber.h"
 
 typedef struct {
@@ -22,7 +21,7 @@ typedef struct {
 
 void LCD_init(guiClass *self);
 
-void printAt(guiClass *self, uint8_t num);
+void printAt(uint8_t num, int pp);
 
 #define initGUI(pos) {initObject(), pos}
 	

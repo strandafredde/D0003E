@@ -1,14 +1,13 @@
 //
-// Created by stran on 2023-04-09.
+// Created by stran on 2023-04-11.
 //
 
-
-#ifndef LAB5_SIMHANDLER_H
-#define LAB5_SIMHANDLER_H
-
+#ifndef SIMULATOR_SIMHANDLER_H
+#define SIMULATOR_SIMHANDLER_H
 #include <stdint.h>
 #include <pthread.h>
 #include <termios.h>
+#include "gui.h"
 
 
 //Define bridge statuses
@@ -16,18 +15,24 @@
 #define southGreen 1
 #define red        2
 
-pthread_mutex_t simMutex;
-pthread_mutex_t fileMutex;
+// Declare mutexes as extern
+extern pthread_mutex_t simMutex;
+extern pthread_mutex_t fileMutex;
 
-int port;
-uint8_t out;
-uint64_t queues[3];
-uint8_t lights;
+extern int fd;
+extern uint8_t out;
+extern uint64_t queues[3];
+extern uint8_t lights;
 
-struct termios tty;
+extern sem_t arrivalSem;
+extern sem_t bridgeEnterSem;
 
-void initSimHandler();
-void inputHandler():
-void bridgeHandler();
+extern struct termios tty;
 
-#endif //LAB5_SIMHANDLER_H
+extern int running;
+
+void initSimHandler(void);
+void inputHandler(void);
+void bridgeHandler(void);
+
+#endif //SIMULATOR_SIMHANDLER_H

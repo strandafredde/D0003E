@@ -4,11 +4,15 @@
 
 #include "simHandler.h"
 #include "gui.h"
+#include "aaa.h"
+
+//  gcc main.c aaa.c simHandler.c gui.c -o main.exe
+
 int main(void){
-    initSimHandler()
-    while(1) {
-        inputHandler();
-        bridgeHandler();
-    }
+        initSimHandler();
+        printStatus();
+        while(running) {
+            inputHandler();
+        }
 
 }

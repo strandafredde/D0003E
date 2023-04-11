@@ -3,9 +3,10 @@
 //
 #include <stdio.h>
 #include "gui.h"
-void printStatus(){
-        printf("===================== CAR-BRIDGE SIMULATION =====================");
-        printf("Lights | S:" + southGreen + " | N:" + northGreen);
-        printf("Queue  | S:" + queues[1] + " | N:" + queues[2]+ " | B:" + queues[0];
-        printf("=================================================================");
+#include "simHandler.h"
+void printStatus(void) {
+    printf("===================== CAR-BRIDGE SIMULATION =====================\n");
+    printf("Lights | %d | %d = SouthGreen, %d = NorthGreen, %d = Red\n", lights,0,1,2);
+    printf("Queue  | S:%d | N:%d | B:%d\n", queues[1], queues[0], queues[2]);
+    printf("=================================================================\n");
 }

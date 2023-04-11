@@ -41,7 +41,8 @@ C_SRCS +=  \
 ../Gui.c \
 ../main.c \
 ../TinyTimber.c \
-../trafficLights.c
+../trafficLights.c \
+../USART_Receive.c
 
 
 PREPROCESSING_SRCS += 
@@ -55,28 +56,32 @@ echo.o \
 Gui.o \
 main.o \
 TinyTimber.o \
-trafficLights.o
+trafficLights.o \
+USART_Receive.o
 
 OBJS_AS_ARGS +=  \
 echo.o \
 Gui.o \
 main.o \
 TinyTimber.o \
-trafficLights.o
+trafficLights.o \
+USART_Receive.o
 
 C_DEPS +=  \
 echo.d \
 Gui.d \
 main.d \
 TinyTimber.d \
-trafficLights.d
+trafficLights.d \
+USART_Receive.d
 
 C_DEPS_AS_ARGS +=  \
 echo.d \
 Gui.d \
 main.d \
 TinyTimber.d \
-trafficLights.d
+trafficLights.d \
+USART_Receive.d
 
 OUTPUT_FILE_PATH +=lab5.elf
 
@@ -121,6 +126,13 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./trafficLights.o: .././trafficLights.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega169p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega169p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./USART_Receive.o: .././USART_Receive.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega169p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega169p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
