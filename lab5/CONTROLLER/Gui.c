@@ -153,7 +153,7 @@ void writeChar(char ch, int pos){
 }
 
 
-void printAt(uint8_t num, int pp) {
+void printAt(guiClass *self, uint8_t num) {
 	/* Function: printAt
      * -------------------
      * calls function to write char
@@ -162,7 +162,7 @@ void printAt(uint8_t num, int pp) {
      * returns: none
      */
 	
-  
+    int pp = self->pos;
     writeChar( (num % 100) / 10 + '0', pp);
     pp++;
     writeChar( num % 10 + '0', pp);

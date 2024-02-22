@@ -16,11 +16,12 @@ pthread_mutex_t fileMutex;
 sem_t arrivalSem;
 sem_t bridgeEnterSem;
 
-int running;
+
 int fd;
 struct termios tty;
 uint64_t queues[3];
-uint8_t lights;
+uint8_t northLight;
+uint8_t southLight;
 void initSimHandler(void){
     sem_init(&arrivalSem, 0, 0);
     sem_init(&bridgeEnterSem, 0, 0);
@@ -38,14 +39,17 @@ void initSimHandler(void){
     tty.c_cflag &= ~PARENB;             // no parity
     tty.c_cflag &= ~CSTOPB;             // 1 stop bit
     tty.c_cflag |= CREAD;    // Enable receive
-    running = 1;
-    lights = red;
+
+    northLight = northGreen;
+    southLight = southRed;
 }
 
-void inputHandler(void){
+void *inputHandler(){
     // Handles the keyboard presses
+    while (1) {
 
-    char input = getchar();
+    char input;
+    input = getchar();
     // Add car to northQueue
     if (input == 'n') {
         pthread_mutex_lock(&simMutex);
@@ -66,33 +70,60 @@ void inputHandler(void){
     }
     // Exit simulator
     if (input == 'e') {
-        pthread_mutex_lock(&simMutex);
         printf("You have exited the simulation\n");
-        running = 0;
-        pthread_mutex_unlock(&simMutex);
+        void *ret;
+        return ret;
     }
-
+    }
 }
 
-void bridgeHandler(void){
+void *bridgeHandler(){
     // Depending on traffic light status ( nGreen, sGreen) it will add a car
     // onto the bridge, let it pass and then remove it.
-    pthread_mutex_lock(&simMutex);
-    if (queues[lights] == 0 || queues[lights] == 1 ) {
-        queues[lights]--;
+    if (northLight == northGreen) {
+        pthread_mutex_lock(&simMutex);
+        queues[0]--;
         queues[2]++;
-
+        printf("Adding car to bridge | NORTH\n");
+        printStatus();
         //wait for car to pass over bridge
         sleep(5);
 
         //Remove car from bridge
+        printf("Removing car from bridge | NORTH\n");
         queues[2]--;
+        printStatus();
+        pthread_mutex_unlock(&simMutex);
     }
-    pthread_mutex_unlock(&simMutex);
+    
+    else if ( southLight == southGreen) {
+        
+        pthread_mutex_lock(&simMutex);
+        queues[1]--;
+        queues[2]++;
+        //wait for car to pass over bridge
+        printf("Adding car to bridge | SOUTH\n");
+        printStatus();
+        sleep(5);
+
+        //Remove car from bridge
+        printf("Removing car from bridge | SOUTH\n");
+        queues[2]--;
+        printStatus();
+        pthread_mutex_unlock(&simMutex);
+    }
+
 
 }
 
-void lightHandler(void) {
+
+void bridge() {
+    // Create a thread for the bridgeHandler
+    pthread_t bridgeThread;
+    pthread_create(&bridgeThread, NULL, &bridgeHandler, NULL);
+}
+
+void *lightHandler() {
     uint8_t data = 0;
     while (1)
     {
@@ -103,21 +134,31 @@ void lightHandler(void) {
         read(fd, &data, 1);
         pthread_mutex_unlock(&fileMutex);
 
-        if(data == 0b0110) { // SouthQueue green
+        if(data == 0b0100) { // SouthQueue green
             pthread_mutex_lock(&simMutex);
-            lights = southGreen;
-            lights = southGreen;
+            southLight = southGreen;
+            northLight = northRed;
+            int data = 0b1000;
+            write(fd, &data, 1);
+            bridge();
             pthread_mutex_unlock(&simMutex);
         }
-        if(data == 0b1001) { // NorthQueue green
+        else if(data == 0b0001) { // NorthQueue green
             pthread_mutex_lock(&simMutex);
-            lights = northGreen;
+            northLight = northGreen;
+            southLight = southRed;
+            int data = 0b0010;
+            write(fd, &data, 1);
+            bridge();
             pthread_mutex_unlock(&simMutex);
         }
-        else {
-            pthread_mutex_lock(&simMutex);
-            lights = red;
-            pthread_mutex_unlock(&simMutex);
+        else if(data == 0b0010) { // NorthQueue red
+            northLight = northRed;
         }
+        else if(data == 0b1000) { // SouthQueue red
+            southLight = southRed;
+        }
+
+
     }
 }
