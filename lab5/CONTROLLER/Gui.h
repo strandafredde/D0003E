@@ -21,7 +21,7 @@ typedef struct {
 
 void LCD_init(guiClass *self);
 
-void printAt(uint8_t num, int pp);
+void printAt(uint8_t num, int pos);
 
 #define initGUI(pos) {initObject(), pos}
 	

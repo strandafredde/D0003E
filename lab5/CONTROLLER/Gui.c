@@ -42,6 +42,8 @@ void LCD_init(guiClass *self) {
 	PCMSK0 = (1<<PCINT3)|(1<<PCINT2);
 	PCMSK1 = (1<<PCINT15)|(1<<PCINT14)|(1<<PCINT12);
 	EIMSK = (1 << PCIE1)|(1 << PCIE0);
+
+    
 }
 
 void writeChar(char ch, int pos){
@@ -153,7 +155,7 @@ void writeChar(char ch, int pos){
 }
 
 
-void printAt(guiClass *self, uint8_t num) {
+void printAt(uint8_t num, int pos ) {
 	/* Function: printAt
      * -------------------
      * calls function to write char
@@ -162,7 +164,7 @@ void printAt(guiClass *self, uint8_t num) {
      * returns: none
      */
 	
-    int pp = self->pos;
+    int pp = pos;
     writeChar( (num % 100) / 10 + '0', pp);
     pp++;
     writeChar( num % 10 + '0', pp);

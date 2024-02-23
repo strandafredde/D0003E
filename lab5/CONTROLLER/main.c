@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include <stdio.h>
 #include "trafficLights.h"
+#include "controllerHandler.h"
 #include "TinyTimber.h"
 #include "Gui.h"
 #include "USART_Receive.h"
@@ -12,8 +13,7 @@
 
 // - creation of inits.
 guiClass GUI = initGUI(NULL); // (pos)
-Bridge B = initBridge(&GUI, 1); // (gui, direction)
-USART_Receive UR = USART_ReceiveInit(&B);
+
 
 void USART_init(void){
 	// - Set baud rate prescaler.
@@ -30,11 +30,14 @@ void USART_init(void){
 
 
 
-int main() {
+int main(void) {
 	USART_init(); // - initiate USART settings.
 	LCD_init(&GUI); // - initiate LCD.
-	INSTALL(&B, UR, USART0_RX_vect);
-	TINYTIMBER(&B, init, NULL);
+	Bridge B = initBridge(); // - initiate traffic lights.
+	ControllerHandler CH = initControllerHandler(&B); // - initiate controller handler.
+	init(&B); // - print cars on LCD.
+	INSTALL(&CH, dataHandler, IRQ_USART0_RX);
+	TINYTIMBER(&CH, initiate, NULL);
 
 }
 // int main(){

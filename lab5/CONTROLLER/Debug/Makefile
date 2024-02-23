@@ -37,6 +37,7 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../controllerHandler.c \
 ../echo.c \
 ../Gui.c \
 ../main.c \
@@ -52,6 +53,7 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+controllerHandler.o \
 echo.o \
 Gui.o \
 main.o \
@@ -60,6 +62,7 @@ trafficLights.o \
 USART_Receive.o
 
 OBJS_AS_ARGS +=  \
+controllerHandler.o \
 echo.o \
 Gui.o \
 main.o \
@@ -68,6 +71,7 @@ trafficLights.o \
 USART_Receive.o
 
 C_DEPS +=  \
+controllerHandler.d \
 echo.d \
 Gui.d \
 main.d \
@@ -76,6 +80,7 @@ trafficLights.d \
 USART_Receive.d
 
 C_DEPS_AS_ARGS +=  \
+controllerHandler.d \
 echo.d \
 Gui.d \
 main.d \
@@ -97,6 +102,13 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+./controllerHandler.o: .././controllerHandler.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega169p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega169p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 ./echo.o: .././echo.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0

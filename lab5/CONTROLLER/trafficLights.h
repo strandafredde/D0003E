@@ -10,6 +10,7 @@
 #define BRIDGE_H_
 #include <stdbool.h>
 #include "Gui.h"
+
 #include "TinyTimber.h"
 
 #define northGreen 0
@@ -17,9 +18,6 @@
 
 typedef struct {
 	Object super;
-
-    // - set gui.
-	guiClass gui;
 
     // - Direction control.
 	int direction;
@@ -32,7 +30,7 @@ typedef struct {
 	
 } Bridge;
 
-#define initBridge(gui, direction) {initObject(), gui, direction}
+#define initBridge() {initObject(), 1, 0, 0, 0, 0}
 	
 // - arrival of cars.
 void SouthboundArrival(Bridge *self);
