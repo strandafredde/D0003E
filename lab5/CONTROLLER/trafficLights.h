@@ -27,10 +27,12 @@ typedef struct {
     // - Bridge setting control.
 	int onBridge;
 	int lockBridge;
+
+	int carsPassed;
 	
 } Bridge;
 
-#define initBridge() {initObject(), 1, 0, 0, 0, 0}
+#define initBridge() {initObject(), 1, 0, 0, 0, 0, 0}
 	
 // - arrival of cars.
 void SouthboundArrival(Bridge *self);

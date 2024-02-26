@@ -24,6 +24,8 @@ void enterSouth(Bridge *self) {
     ASYNC(self, printCars, NULL);
 }
 
+
+
 void enterNorth(Bridge *self) {
     // Creates car event on bridge from north
     self->northQueue -= 1;
@@ -33,60 +35,46 @@ void enterNorth(Bridge *self) {
 }
 
 void carsEnter(Bridge *self) {
-	if(self->onBridge < 5) {
-		if(self->direction == southGreen && self->southQueue > 0) {
-			USART_Transmit(0b0100);
+    // Allow up to 5 cars from the current direction to enter the bridge
+    if(self->onBridge < 5 && self->carsPassed <= 5) {
+        if(self->direction == southGreen && self->southQueue > 0) {
+            printf(self->carsPassed);
+			self->carsPassed++;
+            USART_Transmit(0b0100);
+ 
+        }
+        if(self->direction == northGreen && self->northQueue > 0) {
+			self->carsPassed++;
+            printf(self->carsPassed);
+            USART_Transmit(0b0001);
 
-			
-		}
-		if(self->direction == northGreen && self->northQueue > 0) {
-			USART_Transmit(0b0001);
+        }
+    }
 
-			
-		}
-		
-	}
-	AFTER(SEC(1), self, carsEnter, NULL);
+    // If 5 cars have passed or no more cars in current direction, switch direction
+    if (self->carsPassed >= 5 || (self->direction == southGreen && self->southQueue == 0) || (self->direction == northGreen && self->northQueue == 0)) {
+        if(self->onBridge==0 ) {
+            if(self->direction == southGreen) {
+                self->direction = northGreen;
+            } else if(self->direction == northGreen) {
+                self->direction = southGreen;
+            }
+            self->carsPassed = 0; // Reset the count of cars passed
+        }
+    }
 
+    // If no cars on the bridge and no cars in queue in current direction, switch direction
+    if(self->onBridge==0 ) {
+        if(self->direction == southGreen && self->southQueue == 0) {
+            self->direction = northGreen;
+        }
+        if(self->direction == northGreen && self->northQueue == 0) {
+            self->direction = southGreen;
+        }
+    }
 
-
-
-
-    // checks status of lights and permits or denies cars entry on bridge.
-		// South side
-
-		/*
-		if(self->direction == southGreen && self->onBridge == 0) {
-			if(self->southQueue == 0) {
-                // no cars in south queue, switch lights.
-				self->direction = northGreen;
-				USART_Transmit(0b0001);
-				USART_Transmit(0b1000);
-			}
-			else {
-				USART_Transmit(0b0100);
-				AFTER(SEC(1), self, enterSouth, NULL);
-				
-			}
-		}
-		// North side
-		if(self->direction == northGreen && self->onBridge == 0) {
-			if(self->northQueue == 0) {
-                // no cars in north queue, switch lights.
-				self->direction = southGreen;
-				USART_Transmit(0b0100);
-				USART_Transmit(0b0010);
-			}
-			else {
-				USART_Transmit(0b0001);
-				AFTER(SEC(1), self, enterNorth, NULL);
-				
-			}
-		}
-
-        AFTER(SEC(1), self, carsEnter, NULL); // - transmit light status to simulation.
-		*/
-	}
+    AFTER(SEC(1), self, carsEnter, NULL);
+}
 	
 
 void carDestroy(Bridge *self) {
